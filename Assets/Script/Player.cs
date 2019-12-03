@@ -8,15 +8,18 @@ public class Player : MonoBehaviour
     [SerializeField] float vSpeed;
     [SerializeField] float hSpeed;
     [SerializeField] float Reach = 2.0f;
+    [SerializeField] AudioClip warp;
 
     Vector3 keyPreviousPosition;
     GameObject keyObject;
 
     private GameController gc;
+    public Vector3 offset;
 
     //Game Component
     Rigidbody rb;
     RaycastHit hit;
+    AudioSource warpAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +31,8 @@ public class Player : MonoBehaviour
         gc = gameControllerObject.GetComponent<GameController>();
         
         rb = GetComponent<Rigidbody>();
+        warpAudio = GetComponent<AudioSource>();
 
-       
     }
 
     // Update is called once per frame
@@ -37,22 +40,14 @@ public class Player : MonoBehaviour
     {
         Move();
         keyPreviousPosition = gc.keyObj.position;
-
-
         //Switch
         var fwd = transform.TransformDirection(Vector3.forward);
         if (Physics.Raycast(transform.position, fwd, out hit, Reach) && hit.transform.tag == "Key" && Input.GetKey(KeyCode.Space))
         {
-            gc.keyObj.position = gameObject.transform.position;
-            gameObject.transform.position = keyPreviousPosition;
+            warpAudio.Play();
+            gc.keyObj.position = gameObject.transform.position - offset;
+            gameObject.transform.position = keyPreviousPosition + offset;
         }
-        //PullmoveVector.x, moveVector.y, moveVector.z
-        if (Physics.Raycast(transform.position, fwd, out hit, Reach) && hit.transform.tag == "Key" && Input.GetKey(KeyCode.LeftShift))
-        {
-            gc.keyObj.transform.Translate(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-            
-        }
-        //Push
     }
 
     void Move() // Player moves and rotates when ASWD
