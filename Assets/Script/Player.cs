@@ -24,15 +24,14 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         //Find the Game Controller
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
         //Get Copy of the Game Controller Script
         gc = gameControllerObject.GetComponent<GameController>();
         
         rb = GetComponent<Rigidbody>();
         warpAudio = GetComponent<AudioSource>();
-
     }
 
     // Update is called once per frame
@@ -62,7 +61,6 @@ public class Player : MonoBehaviour
         if (verticalThrow != 0)
         {
             transform.Translate(Vector3.forward * verticalThrow * vSpeed);
-
         }
         else
         {

@@ -8,11 +8,6 @@ public class GameController : MonoBehaviour
     [SerializeField] public Transform keyObj;
     [SerializeField] public GameObject fence;
     
-
-    //components
-    
-    
-
     // Start is called before the first frame update
     void Start()
     {
